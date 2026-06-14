@@ -72,33 +72,6 @@ The headless bulk CLI needs only **Python + NumPy** — no display, no matplotli
 
 ---
 
-## Installation
-
-```bash
-git clone https://github.com/your-username/harwellxps-vamas-correct.git
-cd harwellxps-vamas-correct
-```
-
-Then either install the dependencies directly:
-
-```bash
-pip install -r requirements.txt        # numpy + matplotlib
-```
-
-…or install the project as a package, which also adds the `harwell-xps` command:
-
-```bash
-pip install -e ".[gui]"                # core + GUI (matplotlib)
-# pip install -e .                     # core only (headless CLI, NumPy only)
-# pip install -e ".[test]"             # add the test dependencies
-```
-
-Once installed you can run either `harwell-xps` or `python xps_transmission_tool.py`.
-
-> On minimal Linux installs you may need Tk for the GUI, e.g. `sudo apt install python3-tk`.
-
----
-
 ## Usage
 
 ### Interactive GUI (single file)
@@ -190,25 +163,6 @@ A couple of constants near the top of `xps_transmission_tool.py` control instrum
 - **`SOURCE_LABELS` / `DEFAULT_EXCITATION_EV`** — only a *fallback*. The photon energy for the KE ↔ BE conversion is normally read per block from the file's analysis-source field, so mixed-anode files (e.g. Al + Ag) convert correctly without configuration.
 
 ---
-
-## Project structure
-
-```
-.
-├── xps_transmission_tool.py   # GUI + headless CLI + parsing/correction core
-├── pyproject.toml             # packaging metadata + console script
-├── requirements.txt           # numpy + matplotlib
-├── README.md
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── LICENSE
-├── .gitignore
-├── .github/workflows/ci.yml   # tests on Python 3.8–3.12
-├── tests/
-│   └── test_vamas.py          # pytest suite (core only, no display needed)
-├── examples/                  # drop sample .vms files here
-└── docs/screenshots/          # add viewer.png and bulk.png
-```
 
 The code is organised as a GUI-free **core** (parser → correction → writers → bulk driver) with the Tkinter/matplotlib interface layered on top, so the parsing and correction logic can be imported and reused independently:
 
